@@ -1,34 +1,26 @@
 package com.nlw.esports.server.models;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.Instant;
 import java.util.List;
 
-@Entity
-@Table(name = "advertsement")
-public class Advertisement {
+public class AdvertisementWithoutDiscord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "game_id")
     private Game game;
 
     private String name;
     private Integer yearsPlaying;
-    private String discord;
 
-    @ElementCollection
     private List<Integer> weekDays;
 
     private Instant hourStart;
     private Instant hourEnd;
     private Boolean useVoiceChanel;
     private Instant createdAt;
-
-    public Advertisement() {}
 
     public Long getId() {
         return id;
@@ -60,14 +52,6 @@ public class Advertisement {
 
     public void setYearsPlaying(Integer yearsPlaying) {
         this.yearsPlaying = yearsPlaying;
-    }
-
-    public String getDiscord() {
-        return discord;
-    }
-
-    public void setDiscord(String discord) {
-        this.discord = discord;
     }
 
     public List<Integer> getWeekDays() {
@@ -108,21 +92,5 @@ public class Advertisement {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Advertisement{" +
-                "id=" + id +
-                ", game=" + game +
-                ", name='" + name + '\'' +
-                ", yearsPlaying=" + yearsPlaying +
-                ", discord='" + discord + '\'' +
-                ", weekDays=" + weekDays +
-                ", hourStart=" + hourStart +
-                ", hourEnd=" + hourEnd +
-                ", useVoiceChanel=" + useVoiceChanel +
-                ", createdAt=" + createdAt +
-                '}';
     }
 }

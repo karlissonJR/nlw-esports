@@ -1,13 +1,17 @@
 package com.nlw.esports.server.controllers;
 
+import com.nlw.esports.server.dto.AdvertisementDto;
 import com.nlw.esports.server.models.Advertisement;
+import com.nlw.esports.server.services.AdvertisementService;
+import com.nlw.esports.server.services.GameService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +20,30 @@ import java.util.List;
 @RequestMapping("/ads")
 public class AdvertisementController {
 
-    @GetMapping
-    public ResponseEntity<List<Advertisement>> index() {
+    @Autowired
+    AdvertisementService service;
 
-        List<Advertisement> advertisements = new ArrayList<>();
+    @Autowired
+    GameService gameService;
 
-        advertisements.add(new Advertisement(1L, "Anúncio 1"));
-        advertisements.add(new Advertisement(2L, "Anúncio 2"));
-        advertisements.add(new Advertisement(3L, "Anúncio 3"));
-        advertisements.add(new Advertisement(4L, "Anúncio 4"));
-        advertisements.add(new Advertisement(5L, "Anúncio 5"));
+    @GetMapping("/{id}/discord")
+    public ResponseEntity<String> findDiscordByAdvertisement(@PathVariable(value = "id") Long id) {
+        Advertisement advertisement = service.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(advertisement.getDiscord());
+    }
 
-        return ResponseEntity.status(HttpStatus.OK).body(advertisements);
+    @PostMapping
+    public ResponseEntity<Advertisement> save(@RequestBody AdvertisementDto advertisementDto) {
+
+        Advertisement advertisement = new Advertisement();
+        BeanUtils.copyProperties(advertisementDto, advertisement);
+
+        advertisement.setGame(gameService.findById(advertisementDto.getGameId()));
+        advertisement.setHourStart(Instant.parse(advertisementDto.getHourStart()));
+        advertisement.setHourEnd(Instant.parse(advertisementDto.getHourEnd()));
+        advertisement.setCreatedAt(Instant.now());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(advertisement));
     }
 
 }
