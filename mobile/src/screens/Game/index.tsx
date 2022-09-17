@@ -6,6 +6,7 @@ import { Entypo } from '@expo/vector-icons'
 
 import { Background } from '../../components/Background'
 import { Heading } from '../../components/Heading'
+import { DuoMatch } from '../../components/DuoMatch'
 
 import { GameParams } from '../../@types/navigation'
 
@@ -16,11 +17,6 @@ import { DuoCard } from '../../components/DuoCard'
 
 export interface DuoCardProps {
     id: number,
-    game: {
-        id: number,
-        title: string,
-        bannerUrl: string
-    },
     name: string,
     yearsPlaying: number,
     weekDays: number[],
@@ -33,6 +29,8 @@ export interface DuoCardProps {
 export function Game() {
 
     const [advertisements, setAdvertisements] = useState<DuoCardProps[]>([])
+    const [openModal, setOpenModal] = useState<boolean>(false)
+    const [discord, setDiscord] = useState<string>("")
 
     const route = useRoute()
     const game = route.params as GameParams
@@ -47,6 +45,14 @@ export function Game() {
 
     function handleGoBack() {
         navigation.goBack()
+    }
+
+    async function handleDiscordByAd(id: number) {
+        await fetch(`http://192.168.0.113:8080/ads/${id}/discord`)
+        .then(response => response.text())
+        .then(result => setDiscord(result))
+
+        setOpenModal(!openModal)
     }
 
     return (
@@ -86,7 +92,7 @@ export function Game() {
                     renderItem={({ item }) => (
                       <DuoCard
                         data={item}
-                        onConnect={() => {}}
+                        onConnect={() => handleDiscordByAd(item.id)}
                       />
                     )}
                     horizontal
@@ -96,6 +102,12 @@ export function Game() {
                     ListEmptyComponent={() => (
                         <Text style={styles.emptyListText}>Não há anúncios publicados ainda.</Text>
                     )}
+                />
+
+                <DuoMatch
+                    visible={openModal}
+                    discord={discord}
+                    onClose={() => setOpenModal(!openModal)}
                 />
 
             </SafeAreaView>
