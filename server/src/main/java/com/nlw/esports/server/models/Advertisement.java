@@ -5,11 +5,11 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "advertsement")
+@Table(name = "advertisement")
 public class Advertisement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -23,8 +23,8 @@ public class Advertisement {
     @ElementCollection
     private List<Integer> weekDays;
 
-    private Instant hourStart;
-    private Instant hourEnd;
+    private String hourStart;
+    private String hourEnd;
     private Boolean useVoiceChanel;
     private Instant createdAt;
 
@@ -78,19 +78,19 @@ public class Advertisement {
         this.weekDays = weekDays;
     }
 
-    public Instant getHourStart() {
+    public String getHourStart() {
         return hourStart;
     }
 
-    public void setHourStart(Instant hourStart) {
+    public void setHourStart(String hourStart) {
         this.hourStart = hourStart;
     }
 
-    public Instant getHourEnd() {
+    public String getHourEnd() {
         return hourEnd;
     }
 
-    public void setHourEnd(Instant hourEnd) {
+    public void setHourEnd(String hourEnd) {
         this.hourEnd = hourEnd;
     }
 

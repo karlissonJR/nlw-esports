@@ -3,22 +3,16 @@ package com.nlw.esports.server.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "games")
+@Table(name = "game")
 public class Game {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String bannerUrl;
 
     public Game() {}
-
-    public Game(Long id, String title, String bannerUrl) {
-        this.id = id;
-        this.title = title;
-        this.bannerUrl = bannerUrl;
-    }
 
     public Long getId() {
         return id;

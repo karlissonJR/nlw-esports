@@ -1,24 +1,19 @@
 package com.nlw.esports.server.models;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.Instant;
 import java.util.List;
 
-public class AdvertisementWithoutDiscord {
+public class AdvertisementWithoutDiscordAndGame {
 
     private Long id;
-
-    private Game game;
 
     private String name;
     private Integer yearsPlaying;
 
     private List<Integer> weekDays;
 
-    private Instant hourStart;
-    private Instant hourEnd;
+    private String hourStart;
+    private String hourEnd;
     private Boolean useVoiceChanel;
     private Instant createdAt;
 
@@ -28,14 +23,6 @@ public class AdvertisementWithoutDiscord {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public String getName() {
@@ -62,19 +49,19 @@ public class AdvertisementWithoutDiscord {
         this.weekDays = weekDays;
     }
 
-    public Instant getHourStart() {
+    public String getHourStart() {
         return hourStart;
     }
 
-    public void setHourStart(Instant hourStart) {
+    public void setHourStart(String hourStart) {
         this.hourStart = hourStart;
     }
 
-    public Instant getHourEnd() {
+    public String getHourEnd() {
         return hourEnd;
     }
 
-    public void setHourEnd(Instant hourEnd) {
+    public void setHourEnd(String hourEnd) {
         this.hourEnd = hourEnd;
     }
 

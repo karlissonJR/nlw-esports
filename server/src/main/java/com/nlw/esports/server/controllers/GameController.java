@@ -1,8 +1,7 @@
 package com.nlw.esports.server.controllers;
 
 import com.nlw.esports.server.dto.GameDto;
-import com.nlw.esports.server.models.Advertisement;
-import com.nlw.esports.server.models.AdvertisementWithoutDiscord;
+import com.nlw.esports.server.models.AdvertisementWithoutDiscordAndGame;
 import com.nlw.esports.server.models.Game;
 import com.nlw.esports.server.models.GameWithAdvertisementsCount;
 import com.nlw.esports.server.services.AdvertisementService;
@@ -32,8 +31,8 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}/ads")
-    public ResponseEntity<List<AdvertisementWithoutDiscord>> findAdvertisementsByGame(@PathVariable(value = "gameId") Long gameId) {
-        List<AdvertisementWithoutDiscord> advertisements = advertisementService.findByGameId(gameId);
+    public ResponseEntity<List<AdvertisementWithoutDiscordAndGame>> findAdvertisementsByGame(@PathVariable(value = "gameId") Long gameId) {
+        List<AdvertisementWithoutDiscordAndGame> advertisements = advertisementService.findByGameId(gameId);
         return ResponseEntity.status(HttpStatus.OK).body(advertisements);
     }
 

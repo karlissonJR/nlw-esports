@@ -3,6 +3,7 @@ package com.nlw.esports.server.services;
 import com.nlw.esports.server.models.Game;
 import com.nlw.esports.server.models.GameWithAdvertisementsCount;
 import com.nlw.esports.server.repositories.GameRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,12 @@ public class GameService{
         List<GameWithAdvertisementsCount> gameWithAdvertisementsCounts = new ArrayList<>();
 
         games.forEach(game -> {
-            gameWithAdvertisementsCounts.add(new GameWithAdvertisementsCount(
-                    game.getId(),
-                    game.getTitle(),
-                    game.getBannerUrl(),
-                    advertisementService.findByGameId(game.getId()).size()
-            ));
+
+            GameWithAdvertisementsCount gameWithAdvertisementsCount = new GameWithAdvertisementsCount();
+            BeanUtils.copyProperties(game, gameWithAdvertisementsCount);
+            gameWithAdvertisementsCount.setAdvertisements(advertisementService.findByGameId(game.getId()).size());
+
+            gameWithAdvertisementsCounts.add(gameWithAdvertisementsCount);
         });
 
         return gameWithAdvertisementsCounts;

@@ -1,8 +1,7 @@
 package com.nlw.esports.server.services;
 
-import com.fasterxml.jackson.databind.util.ArrayIterator;
 import com.nlw.esports.server.models.Advertisement;
-import com.nlw.esports.server.models.AdvertisementWithoutDiscord;
+import com.nlw.esports.server.models.AdvertisementWithoutDiscordAndGame;
 import com.nlw.esports.server.repositories.AdvertisementRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,22 +21,22 @@ public class AdvertisementService {
         return  repository.findById(id).get();
     }
 
-    public List<AdvertisementWithoutDiscord> findByGameId(Long gameId) {
+    public List<AdvertisementWithoutDiscordAndGame> findByGameId(Long gameId) {
 
         List<Advertisement> allAdvertisements = repository.findAll();
         List<Advertisement> advertisementsByGameId = allAdvertisements.stream()
                 .filter(advertisement -> advertisement.getGame().getId() == gameId)
                 .collect(Collectors.toList());
 
-        List<AdvertisementWithoutDiscord> advertisementWithoutDiscords = new ArrayList<>();
+        List<AdvertisementWithoutDiscordAndGame> advertisementWithoutDiscordAndGames = new ArrayList<>();
         advertisementsByGameId.forEach(advertisement -> {
-            AdvertisementWithoutDiscord advertisementWithoutDiscord = new AdvertisementWithoutDiscord();
-            BeanUtils.copyProperties(advertisement, advertisementWithoutDiscord);
+            AdvertisementWithoutDiscordAndGame advertisementWithoutDiscordAndGame = new AdvertisementWithoutDiscordAndGame();
+            BeanUtils.copyProperties(advertisement, advertisementWithoutDiscordAndGame);
 
-            advertisementWithoutDiscords.add(advertisementWithoutDiscord);
+            advertisementWithoutDiscordAndGames.add(advertisementWithoutDiscordAndGame);
         });
 
-        return advertisementWithoutDiscords;
+        return advertisementWithoutDiscordAndGames;
     }
 
     public Advertisement save(Advertisement advertisement) {

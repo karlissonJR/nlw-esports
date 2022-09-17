@@ -39,8 +39,6 @@ public class AdvertisementController {
         BeanUtils.copyProperties(advertisementDto, advertisement);
 
         advertisement.setGame(gameService.findById(advertisementDto.getGameId()));
-        advertisement.setHourStart(Instant.parse(advertisementDto.getHourStart()));
-        advertisement.setHourEnd(Instant.parse(advertisementDto.getHourEnd()));
         advertisement.setCreatedAt(Instant.now());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(advertisement));
